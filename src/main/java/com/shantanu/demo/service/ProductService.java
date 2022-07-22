@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.shantanu.demo.service;
 
-import com.example.demo.model.Product;
+import com.shantanu.demo.entity.Product;
 
 import java.util.List;
 

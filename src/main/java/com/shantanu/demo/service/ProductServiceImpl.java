@@ -1,6 +1,7 @@
-package com.example.demo.service;
+package com.shantanu.demo.service;
 
-import com.example.demo.model.Product;
+import com.shantanu.demo.entity.Product;
+import com.shantanu.demo.exception.CustomException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private List<Product> productList = new ArrayList<>();
+    private final List<Product> productList = new ArrayList<>();
 
     @Override
     public List<Product> findAll() {
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if(product == null) {
-            throw new RuntimeException("Not Found");
+            throw new CustomException("Did not find product with id " + id);
         } else {
             return product;
         }
@@ -45,9 +46,8 @@ public class ProductServiceImpl implements ProductService {
         Product oldProduct = findById(id);
         System.out.println(oldProduct);
         if(oldProduct == null) {
-            throw new RuntimeException("Not Found");
+            throw new CustomException("Did not find product with id " + id);
         } else {
-            //        System.out.println(productList.indexOf(oldProduct));
             oldProduct.setName(product.getName());
             oldProduct.setBatchNo(product.getBatchNo());
             oldProduct.setPrice(product.getPrice());
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
         Product oldProduct = findById(id);
         System.out.println(oldProduct);
         if(oldProduct == null) {
-            throw new RuntimeException("Not Found");
+            throw new CustomException("Did not find product with id " + id);
         } else {
             productList.remove(oldProduct);
         }
