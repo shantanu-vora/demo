@@ -5,13 +5,13 @@ import com.shantanu.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
     @Autowired
     private ProductService productService;
 
@@ -24,7 +24,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @RolesAllowed({"admin", "user"})
     public ResponseEntity<Product> getProductById(@PathVariable("id") int id) {
-        Product product = null;
+        Product product;
         product = productService.findById(id);
         return ResponseEntity.ok(product);
     }

@@ -18,11 +18,12 @@ import java.util.Map;
 @RestController
 @Validated
 public class TestController {
+
     @PostMapping("/test")
     public ResponseEntity<String> validateRequestHeader(@RequestHeader("Content-Length") @Min(25) int value) {
-        System.out.println("Header content-length = " + value);
         return ResponseEntity.ok("Headers are read successfully ");
     }
+
     @GetMapping("/weather")
     @RolesAllowed("admin")
     public ResponseEntity<Map<String, Object>> getWeatherForecast() throws JsonProcessingException {

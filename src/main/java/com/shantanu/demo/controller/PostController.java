@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.security.RolesAllowed;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,16 @@ import java.util.Map;
 @RestController
 @RequestMapping("/posts")
 public class PostController {
+
     private static final String GET_ALL_POSTS_API = "https://blogzen.herokuapp.com/api/posts";
+
+    @GetMapping
+    @RolesAllowed("admin")
+    public ResponseEntity<List<?>> getAllPosts() {
+        RestTemplate restTemplate = new RestTemplate();
+        List<?> result = restTemplate.getForObject(GET_ALL_POSTS_API, ArrayList.class);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
     @GetMapping("/{id}")
     @RolesAllowed("admin")
@@ -32,13 +40,5 @@ public class PostController {
         Map<String, Object> map = objectMapper.readValue(result, new TypeReference<>() {
         });
         return ResponseEntity.status(HttpStatus.OK).body(map);
-    }
-
-    @GetMapping
-    @RolesAllowed("admin")
-    public ResponseEntity<List<?>> getAllPosts() throws IOException {
-        RestTemplate restTemplate = new RestTemplate();
-        List<?> result = restTemplate.getForObject(GET_ALL_POSTS_API, ArrayList.class);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
