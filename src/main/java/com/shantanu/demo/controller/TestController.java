@@ -19,12 +19,12 @@ import java.util.Map;
 @Validated
 public class TestController {
 
-    @PostMapping("/test")
+    @PostMapping("/api/test")
     public ResponseEntity<String> validateRequestHeader(@RequestHeader("Content-Length") @Min(25) int value) {
         return ResponseEntity.ok("Headers are read successfully ");
     }
 
-    @GetMapping("/weather")
+    @GetMapping("/api/weather")
     @RolesAllowed("admin")
     public ResponseEntity<Map<String, Object>> getWeatherForecast() throws JsonProcessingException {
         String url = "http://api.weatherstack.com/current?access_key=f216262609602500c30959e57ef04c81&query=Bangalore&units=s";

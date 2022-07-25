@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostController {
 
     private static final String GET_ALL_POSTS_API = "https://blogzen.herokuapp.com/api/posts";

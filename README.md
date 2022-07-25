@@ -7,8 +7,6 @@
 3. Queries 3rd Party API such as WeatherStack and another Blog Application API hosted on Heroku server.
 4. Uses Postman to test API endpoints and pass Access Tokens to the Authorization Server.
 
-## Contents
-Later
 
 ## How to Install and Run the Project
 1. Clone this repository and open the Project in Intellij IDEA.
