@@ -6,6 +6,7 @@ import com.shantanu.demo.entity.Employee;
 import com.shantanu.demo.service.EmployeeService;
 import com.shantanu.demo.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,20 +19,24 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(EmployeeController.class)
 public class EmployeeControllerTest {
 
-	@Autowired
 	private MockMvc mockMvc;
 
 	@Autowired
 	private WebApplicationContext context;
+
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@MockBean
 	private EmployeeService employeeService;
@@ -44,6 +49,7 @@ public class EmployeeControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
+	@DisplayName("JUnit test getAllEmployees method")
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenListOfEmployees_whenGetAllEmployees_thenReturnEmployeeList() throws Exception {
@@ -53,7 +59,7 @@ public class EmployeeControllerTest {
 		List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
 		when(employeeService.getAllEmployees()).thenReturn(employeeList);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/employees").accept(MediaType.APPLICATION_JSON);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/employees").accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		String expectedJson = this.mapToJson(employeeList);
@@ -61,9 +67,10 @@ public class EmployeeControllerTest {
 		assertThat(outputInJson).isEqualTo(expectedJson);
  	}
 
+	@DisplayName("Junit test for getEmployeeById")
 	@Test
 	@WithMockUser(roles = "user")
-	public void givenEmployeeId_whenGetEmployeeId_thenReturnEmployeeObject() throws Exception {
+	public void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() throws Exception {
 		int employeeId = 1;
 		Employee employee = Employee.builder()
 			.id(1)
@@ -71,7 +78,7 @@ public class EmployeeControllerTest {
 			.salary(12000).build();
 
 		when(employeeService.getEmployeeById(employee.getId())).thenReturn(employee);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/employees/{id}", employeeId).accept(MediaType.APPLICATION_JSON);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/employees/{id}", employeeId).accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		String expectedJson = this.mapToJson(employee);
 		String outputInJson = result.getResponse().getContentAsString();

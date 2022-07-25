@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-    @NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
@@ -25,10 +25,4 @@ public class Product {
     private double price;
     private int quantity;
 
-    public Product(String name, String batchNo, double price, int quantity) {
-        this.name = name;
-        this.batchNo = batchNo;
-        this.price = price;
-        this.quantity = quantity;
-    }
 }

@@ -26,7 +26,7 @@ public class TestController {
 
     @GetMapping("/api/weather")
     @RolesAllowed("admin")
-    public ResponseEntity<Map<String, Object>> getWeatherForecast() throws JsonProcessingException {
+    public ResponseEntity<Map<String, Object>> getWeather() throws JsonProcessingException {
         String url = "http://api.weatherstack.com/current?access_key=f216262609602500c30959e57ef04c81&query=Bangalore&units=s";
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(url, String.class);

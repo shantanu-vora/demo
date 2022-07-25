@@ -6,6 +6,7 @@ import com.shantanu.demo.entity.Product;
 import com.shantanu.demo.service.EmployeeService;
 import com.shantanu.demo.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,7 +33,6 @@ import static org.mockito.Mockito.when;
 @WebMvcTest(ProductController.class)
 public class ProductControllerTest {
 
-	@Autowired
 	private MockMvc mockMvc;
 
 	@MockBean
@@ -52,6 +52,7 @@ public class ProductControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
 
+	@DisplayName("Junit test for getAllProducts method")
 	@Test
 	@WithMockUser(roles = {"user","admin"})
 	public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception {
@@ -61,7 +62,7 @@ public class ProductControllerTest {
 		List<Product> productList = new ArrayList<>(Arrays.asList(product1, product2, product3));
 		when(productService.getAllProducts()).thenReturn(productList);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products").accept(MediaType.APPLICATION_JSON);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products").accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		String expectedJson = this.mapToJson(productList);
@@ -69,6 +70,7 @@ public class ProductControllerTest {
 		assertThat(outputInJson).isEqualTo(expectedJson);
 	}
 
+	@DisplayName("Junit test for getProductById")
 	@Test
 	@WithMockUser(roles = {"user", "admin"})
 	public void givenProductId_whenGetProductById_thenReturnProductObject() throws Exception {
@@ -81,7 +83,7 @@ public class ProductControllerTest {
 			.quantity(3).build();
 		when(productService.getProductById(product.getId())).thenReturn(product);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products/{id}", productId)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products/{id}", productId)
 			.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
@@ -90,6 +92,7 @@ public class ProductControllerTest {
 		assertThat(outputInJson).isEqualTo(expectedJson);
 	}
 
+	@DisplayName("Junit test for addProduct method")
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenProductObject_whenAddProduct_thenReturnSavedProduct() throws Exception {
@@ -103,7 +106,7 @@ public class ProductControllerTest {
 		String inputInJson = this.mapToJson(product);
 		when(productService.saveProduct(any(Product.class))).thenReturn(product);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/products")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/products")
 			.accept(MediaType.APPLICATION_JSON).content(inputInJson)
 			.contentType(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -113,6 +116,7 @@ public class ProductControllerTest {
 		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 	}
 
+	@DisplayName("Junit test for updateProduct method")
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenUpdatedProduct_whenUpdateProduct_thenReturnUpdatedProductObject() throws Exception {
@@ -134,7 +138,7 @@ public class ProductControllerTest {
 		when(productService.getProductById(productId)).thenReturn(savedProduct);
 		when(productService.updateProduct(1, updatedProduct)).thenReturn(updatedProduct);
 		String inputInJson = this.mapToJson(updatedProduct);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/products/{id}", productId)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/products/{id}", productId)
 			.accept(MediaType.APPLICATION_JSON).content(inputInJson)
 			.contentType(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -142,12 +146,13 @@ public class ProductControllerTest {
 		assertThat(outputInJson).isEqualTo(inputInJson);
 	}
 
+	@DisplayName("JUnit test for deleteProduct method")
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenProductId_whenDeleteProduct_thenReturn200() throws Exception {
 		int productId = 1;
 		willDoNothing().given(productService).deleteProduct(productId);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/products/{id}", productId)
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/products/{id}", productId)
 				.contentType(MediaType.TEXT_PLAIN_VALUE);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
