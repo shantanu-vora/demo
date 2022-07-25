@@ -20,11 +20,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +40,6 @@ public class ProductControllerTest {
 
 	@MockBean
 	private EmployeeService employeeService;
-
 
 	@Autowired
 	private WebApplicationContext context;
@@ -64,14 +61,12 @@ public class ProductControllerTest {
 		List<Product> productList = new ArrayList<>(Arrays.asList(product1, product2, product3));
 		when(productService.getAllProducts()).thenReturn(productList);
 
-		String URI = "/products";
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get(URI).accept(MediaType.APPLICATION_JSON);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products").accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
 		String expectedJson = this.mapToJson(productList);
 		String outputInJson = result.getResponse().getContentAsString();
 		assertThat(outputInJson).isEqualTo(expectedJson);
-
 	}
 
 	@Test
@@ -84,12 +79,12 @@ public class ProductControllerTest {
 			.batchNo("APP103")
 			.price(10000)
 			.quantity(3).build();
-
 		when(productService.getProductById(product.getId())).thenReturn(product);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/products/{id}", productId)
 			.accept(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+
 		String expectedJson = this.mapToJson(product);
 		String outputInJson = result.getResponse().getContentAsString();
 		assertThat(outputInJson).isEqualTo(expectedJson);

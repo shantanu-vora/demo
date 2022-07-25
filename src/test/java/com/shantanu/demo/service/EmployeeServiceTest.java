@@ -9,25 +9,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-//@ExtendWith(MockitoExtension.class)
+
 @SpringBootTest
 public class EmployeeServiceTest {
 
-//	@Mock
 	@MockBean
 	private EmployeeRepository employeeRepository;
 
-//	@InjectMocks
 	@Autowired
 	private EmployeeService employeeService;
 
@@ -50,7 +46,7 @@ public class EmployeeServiceTest {
 			.name("pranaya")
 			.salary(12000)
 			.build();
-//		given(employeeRepository.findAll()).willReturn(List.of(employee, employee1));
+
 		when(employeeRepository.findAll()).thenReturn(List.of(this.employee1, employee2));
 		List<Employee> employeeList = employeeService.getAllEmployees();
 		assertThat(employeeList).isNotNull();
@@ -60,7 +56,6 @@ public class EmployeeServiceTest {
 	@DisplayName("JUnit test for getAllEmployees method (negative scenario)")
 	@Test
 	public void givenEmptyEmployeesList_whenGetAllEmployees_thenReturnEmptyEmployeesList() {
-//		given((employeeRepository.findAll())).willReturn(Collections.emptyList());
 		when(employeeRepository.findAll()).thenReturn(Collections.emptyList());
 		List<Employee> employeeList = employeeService.getAllEmployees();
 		assertThat(employeeList.isEmpty()).isTrue();
@@ -86,11 +81,7 @@ public class EmployeeServiceTest {
 			.id(2)
 			.name("pranaya")
 			.salary(12000).build();
-//		Employee employee = new Employee(86,"sharath",56666);
 		when(employeeRepository.findById(2)).thenReturn(Optional.of(employee2));
-		assertThrows(CustomException.class,()->{
-			employeeService.getEmployeeById(9);
-		});
+		assertThrows(CustomException.class,()-> employeeService.getEmployeeById(9));
 	}
-
 }
