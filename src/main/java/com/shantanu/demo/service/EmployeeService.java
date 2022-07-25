@@ -5,6 +5,6 @@ import com.shantanu.demo.entity.Employee;
 import java.util.List;
 
 public interface EmployeeService {
-    Employee findById(int employeeId);
-    List<Employee> findAll();
+    Employee getEmployeeById(int employeeId);
+    List<Employee> getAllEmployees();
 }

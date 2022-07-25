@@ -1,12 +1,15 @@
 package com.shantanu.demo.service.impl;
 
 import com.shantanu.demo.entity.Employee;
+import com.shantanu.demo.exception.CustomException;
 import com.shantanu.demo.repository.EmployeeRepository;
 import com.shantanu.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,12 +30,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 			).collect(Collectors.toList()));
 	}
 
-	public Employee findById(int employeeId) {
-		return employeeRepository.findById(employeeId)
-						.orElse(null);
+	public List<Employee> getAllEmployees() {
+		return employeeRepository.findAll();
 	}
 
-	public List<Employee> findAll() {
-		return employeeRepository.findAll();
+	public Employee getEmployeeById(int employeeId) {
+		Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
+
+		if(optionalEmployee.isPresent()) {
+			return optionalEmployee.get();
+		} else {
+			throw new CustomException("Employee with employee id " + employeeId + " does not exist");
+		}
 	}
 }
