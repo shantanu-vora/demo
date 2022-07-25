@@ -15,7 +15,7 @@
 4. After starting the KeyCloak server, go to [http://localhost:8080/](http://localhost:8080/) and create an admin account.
 5. Go to the [Keycloak Admin Console](http://localhost:8080/admin) and login with the username and password you created earlier
 6. Add a realm referring the KeyCloak documentation [here](https://www.keycloak.org/getting-started/getting-started-zip#_create_a_realm)
-7. Create a client ID with Client Protocol as 'openid-connect' and Root URL as http://localhost:9090 and . See [this](https://www.keycloak.org/getting-started/getting-started-zip#_secure_your_first_app).
+7. Create a client ID with Client Protocol as 'openid-connect' and Root URL as http://localhost:9090 . See [this](https://www.keycloak.org/getting-started/getting-started-zip#_secure_your_first_app).
 8. Configure 2 roles 'admin' and 'user'. Go to Roles. Add Role Name and Description.
 9. Configure 2 or more users and map these roles. Go to Users -> Add User. Enter username and Save. Go to Credentials Tab. Enter Password and set Temporary to OFF.  Click on Set Password. Go to Role Mappings tab. From the available select one of the two roles created earlier. Repeat these steps for another user with different role mapping.
 10. We are all set with KeyCloak. In Postman configure OAuth 2.0 as shown below.
