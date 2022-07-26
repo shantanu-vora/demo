@@ -20,14 +20,8 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/{employeeId}")
-    @RolesAllowed("user")
+    @RolesAllowed({"admin","user"})
     public ResponseEntity<Employee> getEmployeeById(@PathVariable int employeeId) {
-//        Optional<Employee> optionalEmployee = employeeService.getEmployeeById(employeeId);
-//        if(optionalEmployee.isPresent()) {
-//            return ResponseEntity.ok(optionalEmployee.get());
-//        } else {
-//            throw new CustomException("Employee with employee id " + employeeId + " does not exist");
-//        }
         return ResponseEntity.ok(employeeService.getEmployeeById(employeeId));
     }
 

@@ -19,10 +19,6 @@ public class ProductController {
 
     public ProductController() {
     }
-//    @Autowired
-//    public ProductController(ProductService productService) {
-//        this.productService = productService;
-//    }
 
     @GetMapping
     @RolesAllowed({"admin", "user"})
