@@ -51,6 +51,6 @@ public class ProductController {
     @RolesAllowed("admin")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") int id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>("Employee deleted successfully!", HttpStatus.OK);
+        return new ResponseEntity<>("Product deleted successfully!", HttpStatus.OK);
     }
 }

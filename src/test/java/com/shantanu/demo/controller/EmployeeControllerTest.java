@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shantanu.demo.entity.Employee;
 import com.shantanu.demo.service.EmployeeService;
-import com.shantanu.demo.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,8 +40,8 @@ public class EmployeeControllerTest {
 	@MockBean
 	private EmployeeService employeeService;
 
-	@MockBean
-	private ProductService productService;
+//	@MockBean
+//	private ProductService productService;
 
 	@BeforeEach
 	void setUp() {

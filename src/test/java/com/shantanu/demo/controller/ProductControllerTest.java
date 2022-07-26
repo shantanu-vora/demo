@@ -3,7 +3,6 @@ package com.shantanu.demo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shantanu.demo.entity.Product;
-import com.shantanu.demo.service.EmployeeService;
 import com.shantanu.demo.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,9 +20,11 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,8 +39,8 @@ public class ProductControllerTest {
 	@MockBean
 	private ProductService productService;
 
-	@MockBean
-	private EmployeeService employeeService;
+//	@MockBean
+//	private EmployeeService employeeService;
 
 	@Autowired
 	private WebApplicationContext context;
@@ -157,7 +158,7 @@ public class ProductControllerTest {
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String outputInJson = response.getContentAsString();
-		assertThat(outputInJson).isEqualTo("Employee deleted successfully!");
+		assertThat(outputInJson).isEqualTo("Product deleted successfully!");
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
