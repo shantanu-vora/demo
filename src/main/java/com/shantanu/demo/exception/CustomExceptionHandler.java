@@ -11,7 +11,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<CustomErrorResponse> handleException(Exception exception) {
         CustomErrorResponse customErrorResponse = new CustomErrorResponse();
-        customErrorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        customErrorResponse.setStatus(HttpStatus.FORBIDDEN.value());
         customErrorResponse.setMessage(exception.getMessage());
         customErrorResponse.setTimestamp(System.currentTimeMillis());
         return new ResponseEntity<>(customErrorResponse, HttpStatus.FORBIDDEN);
