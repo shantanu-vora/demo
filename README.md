@@ -26,7 +26,7 @@
 
 ![](./src/main/resources/static/img/postman_config.png)
 
-## Postman Collections
+## API Endpoints Document
 
 ![](./src/main/resources/static/img/api-doc.png)
 
