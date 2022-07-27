@@ -14,13 +14,15 @@ spring:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 
 
-
-
-
-
 keycloak:
   realm: springboot
   auth-server-url: http://localhost:8080/
   resource: springboot-keycloak
   public-client: true
   bearer-only: true
+
+
+
+getAllPostsApiUrl: https://blogzen.herokuapp.com/api/posts
+weatherStackApiUrl: http://api.weatherstack.com/current?access_key=f216262609602500c30959e57ef04c81&units=s&query=
+

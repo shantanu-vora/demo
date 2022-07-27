@@ -17,8 +17,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@WebMvcTest(TestController.class)
-public class TestControllerTest {
+@WebMvcTest(HomeController.class)
+public class HomeControllerTest {
 
 	private MockMvc mockMvc;
 
@@ -33,7 +33,7 @@ public class TestControllerTest {
 	@Test
 	@WithMockUser(roles = "admin")
 	public void testGetWeather() throws Exception {
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/weather");
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/weather").param("city", "New York");
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
