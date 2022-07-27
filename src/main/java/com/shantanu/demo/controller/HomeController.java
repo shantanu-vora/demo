@@ -1,7 +1,6 @@
 package com.shantanu.demo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shantanu.demo.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,8 @@ import javax.validation.constraints.Min;
 @Validated
 public class HomeController {
 
-    @Autowired
-    ObjectMapper objectMapper;
+//    @Autowired
+//    ObjectMapper objectMapper;
 
     @Autowired
     private HomeService homeService;

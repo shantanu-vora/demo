@@ -7,11 +7,8 @@ import com.shantanu.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -19,18 +16,18 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
 
-	@PostConstruct
-	public void initializeEmployeeTable() {
-		productRepository.saveAll(
-			Stream.of(
-				new Product(1, "Mac Book Pro", "APP123", 9000.0, 2),
-				new Product(2, "Mac Book Air", "APP456", 60000.0, 1),
-				new Product(3, "Mac Studio", "APP789", 9000.0, 5),
-				new Product(4, "iMac 24\"", "APP101", 24000.0, 1),
-				new Product(5, "Mac Mini", "APP102", 30000.0, 4),
-				new Product(6, "Mac Pro", "APP103", 10000.0, 3)
-			).collect(Collectors.toList()));
-	}
+//	@PostConstruct
+//	public void initializeEmployeeTable() {
+//		productRepository.saveAll(
+//			Stream.of(
+//				new Product(1, "Mac Book Pro", "APP123", 9000.0, 2),
+//				new Product(2, "Mac Book Air", "APP456", 60000.0, 1),
+//				new Product(3, "Mac Studio", "APP789", 9000.0, 5),
+//				new Product(4, "iMac 24\"", "APP101", 24000.0, 1),
+//				new Product(5, "Mac Mini", "APP102", 30000.0, 4),
+//				new Product(6, "Mac Pro", "APP103", 10000.0, 3)
+//			).collect(Collectors.toList()));
+//	}
 
 	@Override
 	public List<Product> getAllProducts() {
