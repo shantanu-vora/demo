@@ -21,7 +21,7 @@ public class EmployeeController {
 
     @GetMapping("/{employeeId}")
     @RolesAllowed({"admin","user"})
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable int employeeId) {
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable String employeeId) {
         return ResponseEntity.ok(employeeService.getEmployeeById(employeeId));
     }
 

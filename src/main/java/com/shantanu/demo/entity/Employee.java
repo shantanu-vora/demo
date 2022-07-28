@@ -27,7 +27,7 @@ public class Employee {
                     @Parameter(name = SequenceIdGenerator.INCREMENT_PARAM, value = "1"),
                     @Parameter(name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "EMP_"),
                     @Parameter(name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")})
-    private Integer id;
+    private String id;
     private String name;
     private Double salary;
     public Employee(String name, Double salary) {

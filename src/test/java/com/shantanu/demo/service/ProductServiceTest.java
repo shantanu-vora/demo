@@ -32,10 +32,10 @@ public class ProductServiceTest {
 	@BeforeEach
 	public void setup() {
 		product1 = Product.builder()
-			.id(1)
+			.id("1")
 			.name("Mac Pro")
 			.batchNo("APP103")
-			.price(10000)
+			.price(10000.0)
 			.quantity(3)
 			.build();
 	}
@@ -44,10 +44,10 @@ public class ProductServiceTest {
 	@Test
 	public void givenProductsList_whenGetAllProducts_thenReturnProductsList() {
 		Product product2 = Product.builder()
-			.id(2)
+			.id("2")
 			.name("Mac Studio")
 			.batchNo("APP789")
-			.price(9000)
+			.price(9000.0)
 			.quantity(5)
 			.build();
 		when(productRepository.findAll()).thenReturn(List.of(this.product1, product2));
@@ -68,14 +68,14 @@ public class ProductServiceTest {
 	@Test
 	public void givenProductId_whenGetProductById_thenReturnProductObject() {
 		Product product2 = Product.builder()
-			.id(2)
+			.id("2")
 			.name("Mac Mini")
 			.batchNo("APP102")
-			.price(30000)
+			.price(30000.0)
 			.quantity(4)
 			.build();
-		when(productRepository.findById(2)).thenReturn(Optional.ofNullable(product2));
-		Product savedProduct = productService.getProductById(2);
+		when(productRepository.findById("2")).thenReturn(Optional.ofNullable(product2));
+		Product savedProduct = productService.getProductById("2");
 		assertThat(savedProduct).isNotNull();
 		assertEquals(product2, savedProduct);
 	}
@@ -84,15 +84,15 @@ public class ProductServiceTest {
 	@Test
 	public void givenProductIdThatDoesNotExist_whenGetProductById_thenThrowRuntimeException() {
 		Product product2 = Product.builder()
-			.id(2)
+			.id("2")
 			.name("Mac Mini")
 			.batchNo("APP102")
-			.price(30000)
+			.price(30000.0)
 			.quantity(4)
 			.build();
-		when(productRepository.findById(2)).thenReturn(Optional.of(product2));
+		when(productRepository.findById("2")).thenReturn(Optional.of(product2));
 		assertThrows(CustomException.class,()->{
-			productService.getProductById(9);
+			productService.getProductById("9");
 		});
 	}
 
@@ -114,20 +114,20 @@ public class ProductServiceTest {
 		when(productRepository.findById(product1.getId())).thenReturn(Optional.ofNullable(product1));
 		product1.setName("Mac Book Pro");
 		product1.setBatchNo("APP123");
-		product1.setPrice(90000);
+		product1.setPrice(90000.0);
 		product1.setQuantity(2);
 		Product updatedProduct = productService.updateProduct(product1.getId(), product1);
 		assertThat(updatedProduct.getName()).isEqualTo("Mac Book Pro");
 		assertThat(updatedProduct.getBatchNo()).isEqualTo("APP123");
-		assertThat(updatedProduct.getPrice()).isEqualTo(90000);
-		assertThat(updatedProduct.getQuantity()).isEqualTo(2);
+		assertThat(updatedProduct.getPrice()).isEqualTo(90000.0);
+		assertThat(updatedProduct.getQuantity()).isEqualTo("2");
 		assertEquals(product1, updatedProduct);
 	}
 
 	@DisplayName("JUnit test for deleteProduct method")
 	@Test
 	public void givenProductId_whenDeleteProduct_thenNothing() {
-		int productId = 1;
+		String productId = "1";
 		willDoNothing().given(productRepository).deleteById(productId);
 		productService.deleteProduct(productId);
 		verify(productRepository, times(1)).deleteById(productId);

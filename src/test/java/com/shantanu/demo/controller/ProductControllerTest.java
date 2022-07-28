@@ -57,9 +57,9 @@ public class ProductControllerTest {
 	@Test
 	@WithMockUser(roles = {"user","admin"})
 	public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception {
-		Product product1 = new Product(1, "Mac Mini", "APP102", 30000, 3);
-		Product product2 = new Product(2, "Mac Pro", "APP103", 20000, 1);
-		Product product3 = new Product(3, "Mac iMac24\"", "APP102", 30000, 3);
+		Product product1 = new Product("1", "Mac Mini", "APP102", 30000.0, 3);
+		Product product2 = new Product("2", "Mac Pro", "APP103", 20000.0, 1);
+		Product product3 = new Product("3", "Mac iMac24\"", "APP102", 30000.0, 3);
 		List<Product> productList = new ArrayList<>(Arrays.asList(product1, product2, product3));
 		when(productService.getAllProducts()).thenReturn(productList);
 
@@ -77,10 +77,10 @@ public class ProductControllerTest {
 	public void givenProductId_whenGetProductById_thenReturnProductObject() throws Exception {
 		int productId = 1;
 		Product product = Product.builder()
-			.id(1)
+			.id("1")
 			.name("Mac Pro")
 			.batchNo("APP103")
-			.price(10000)
+			.price(10000.0)
 			.quantity(3).build();
 		when(productService.getProductById(product.getId())).thenReturn(product);
 
@@ -98,10 +98,10 @@ public class ProductControllerTest {
 	@WithMockUser(roles = "admin")
 	public void givenProductObject_whenAddProduct_thenReturnSavedProduct() throws Exception {
 		Product product = Product.builder()
-			.id(1)
+			.id("1")
 			.name("Mac Pro")
 			.batchNo("APP103")
-			.price(10000)
+			.price(10000.0)
 			.quantity(3).build();
 
 		String inputInJson = this.mapToJson(product);
@@ -121,23 +121,23 @@ public class ProductControllerTest {
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenUpdatedProduct_whenUpdateProduct_thenReturnUpdatedProductObject() throws Exception {
-		int productId = 1;
+		String productId = "1";
 		Product savedProduct = Product.builder()
-			.id(1)
+			.id("1")
 			.name("Mac Pro")
 			.batchNo("APP103")
-			.price(10000)
+			.price(10000.0)
 			.quantity(3).build();
 
 		Product updatedProduct = Product.builder()
-			.id(1)
+			.id("1")
 			.name("Mac Book Pro")
 			.batchNo("APP100")
-			.price(15000)
+			.price(15000.0)
 			.quantity(1).build();
 
 		when(productService.getProductById(productId)).thenReturn(savedProduct);
-		when(productService.updateProduct(1, updatedProduct)).thenReturn(updatedProduct);
+		when(productService.updateProduct("1", updatedProduct)).thenReturn(updatedProduct);
 		String inputInJson = this.mapToJson(updatedProduct);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/products/{id}", productId)
 			.accept(MediaType.APPLICATION_JSON).content(inputInJson)
@@ -151,7 +151,7 @@ public class ProductControllerTest {
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenProductId_whenDeleteProduct_thenReturn200() throws Exception {
-		int productId = 1;
+		String productId = "1";
 		willDoNothing().given(productService).deleteProduct(productId);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/products/{id}", productId)
 				.contentType(MediaType.TEXT_PLAIN_VALUE);

@@ -9,8 +9,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -34,12 +34,12 @@ public class Product {
     private Integer quantity;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(name = "category_product", catalog = "abc",
+    @JoinTable(name = "category_product", catalog = "demo",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories = new HashSet<>(0);
+    private List<Category> categories = new ArrayList<>();
 
-    public Product(String name, String batchNo, Double price, Integer quantity, Set<Category> categories) {
+    public Product(String name, String batchNo, Double price, Integer quantity, List<Category> categories) {
         this.name = name;
         this.batchNo = batchNo;
         this.price = price;

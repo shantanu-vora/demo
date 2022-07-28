@@ -1,5 +1,6 @@
 package com.shantanu.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +10,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -27,18 +28,20 @@ public class Category {
 									@Parameter(name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "CAT_"),
 									@Parameter(name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")})
 	private String id;
+	@Column(unique = true)
 	private String name;
+	@JsonIgnore
 	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-	@JoinTable(name = "category_product", catalog = "abc",
+	@JoinTable(name = "category_product", catalog = "demo",
 					joinColumns = @JoinColumn(name = "category_id"),
 					inverseJoinColumns = @JoinColumn(name = "product_id"))
-	private Set<Product> products = new HashSet<>(0);
+	private List<Product> products = new ArrayList<>();
 
 	public Category(String name) {
 		this.name = name;
 	}
 
-	public Category(String name, Set<Product> products) {
+	public Category(String name, List<Product> products) {
 		this.name = name;
 		this.products = products;
 	}

@@ -1,5 +1,6 @@
 package com.shantanu.demo.service;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shantanu.demo.entity.Product;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 public interface ProductService {
 
     List<Product> getAllProducts();
-    Product getProductById(int id);
-    Product saveProduct(Product product);
-    Product updateProduct(int id, Product product);
-    void deleteProduct(int id);
+    Product getProductById(String id);
+    Product saveProduct(ObjectNode jsonNode);
+    Product updateProduct(String id, Product product);
+    void deleteProduct(String id);
 }

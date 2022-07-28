@@ -1,12 +1,16 @@
 package com.shantanu.demo.service.impl;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.shantanu.demo.entity.Category;
 import com.shantanu.demo.entity.Product;
 import com.shantanu.demo.exception.CustomException;
+import com.shantanu.demo.repository.CategoryRepository;
 import com.shantanu.demo.repository.ProductRepository;
 import com.shantanu.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +19,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductRepository productRepository;
+
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 //	@PostConstruct
 //	public void initializeEmployeeTable() {
@@ -35,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product getProductById(int id) {
+	public Product getProductById(String id) {
 		Optional<Product> optionalProduct = productRepository.findById(id);
 		if(optionalProduct.isPresent()) {
 			return optionalProduct.get();
@@ -45,12 +52,40 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product saveProduct(Product product) {
-		return productRepository.save(product);
+	public Product saveProduct(ObjectNode jsonObject) {
+		Product product = new Product();
+		product.setName(jsonObject.get("name").asText());
+		product.setBatchNo(jsonObject.get("batchNo").asText());
+		product.setPrice(jsonObject.get("price").asDouble());
+		product.setQuantity(jsonObject.get("quantity").asInt());
+
+		List<String> categories = new ArrayList<>();
+		jsonObject.get("categories").forEach(jsonNode -> categories.add(jsonNode.asText()));
+
+		for(String categoryName: categories) {
+			if(!categoryName.equals("")) {
+				Category existingCategory = categoryRepository.findCategoryByName(categoryName);
+				if(existingCategory == null) {
+					Category category = new Category();
+					category.setName(categoryName);
+					product.getCategories().add(category);
+				} else {
+					product.getCategories().add(existingCategory);
+				}
+			}
+		}
+
+		Product existingProduct = productRepository.findProductByName(product.getName());
+
+		if(existingProduct == null) {
+			return productRepository.save(product);
+		} else {
+			throw new CustomException("Product name already exists in the Database");
+		}
 	}
 
 	@Override
-	public Product updateProduct(int id, Product product) {
+	public Product updateProduct(String id, Product product) {
 		Product savedProduct = getProductById(id);
 			savedProduct.setName(product.getName());
 			savedProduct.setBatchNo(product.getBatchNo());
@@ -60,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void deleteProduct(int id) {
+	public void deleteProduct(String id) {
 		productRepository.deleteById(id);
 	}
 }

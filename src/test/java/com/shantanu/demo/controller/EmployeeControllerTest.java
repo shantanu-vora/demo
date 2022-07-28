@@ -52,9 +52,9 @@ public class EmployeeControllerTest {
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenListOfEmployees_whenGetAllEmployees_thenReturnEmployeeList() throws Exception {
-		Employee employee1 = new Employee("sai", 10000);
-		Employee employee2 = new Employee("sarathi", 10000);
-		Employee employee3 = new Employee("pranaya", 10000);
+		Employee employee1 = new Employee("sai", 10000.0);
+		Employee employee2 = new Employee("sarathi", 10000.0);
+		Employee employee3 = new Employee("pranaya", 10000.0);
 		List<Employee> employeeList = new ArrayList<>(Arrays.asList(employee1, employee2, employee3));
 		when(employeeService.getAllEmployees()).thenReturn(employeeList);
 
@@ -72,9 +72,9 @@ public class EmployeeControllerTest {
 	public void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() throws Exception {
 		int employeeId = 1;
 		Employee employee = Employee.builder()
-			.id(1)
+			.id("1")
 			.name("pranaya")
-			.salary(12000).build();
+			.salary(12000.0).build();
 
 		when(employeeService.getEmployeeById(employee.getId())).thenReturn(employee);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/employees/{id}", employeeId).accept(MediaType.APPLICATION_JSON);

@@ -31,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeRepository.findAll();
 	}
 
-	public Employee getEmployeeById(int employeeId) {
+	public Employee getEmployeeById(String employeeId) {
 		Optional<Employee> optionalEmployee = employeeRepository.findById(employeeId);
 
 		if(optionalEmployee.isPresent()) {

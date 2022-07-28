@@ -32,9 +32,9 @@ public class EmployeeServiceTest {
 	@BeforeEach
 	public void setup() {
 		employee1 = Employee.builder()
-			.id(1)
+			.id("1")
 			.name("puneet")
-			.salary(10000)
+			.salary(10000.0)
 			.build();
 	}
 
@@ -42,9 +42,9 @@ public class EmployeeServiceTest {
 	@Test
 	public void givenEmployeesList_whenGetAllEmployees_thenReturnEmployeesList() {
 		Employee employee2 = Employee.builder()
-			.id(2)
+			.id("2")
 			.name("pranaya")
-			.salary(12000)
+			.salary(12000.0)
 			.build();
 
 		when(employeeRepository.findAll()).thenReturn(List.of(this.employee1, employee2));
@@ -65,11 +65,11 @@ public class EmployeeServiceTest {
 	@Test
 	public void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() {
 		Employee employee2 = Employee.builder()
-			.id(2)
+			.id("2")
 			.name("pranaya")
-			.salary(12000).build();
-		when(employeeRepository.findById(2)).thenReturn(Optional.ofNullable(employee2));
-		Employee savedEmployee = employeeService.getEmployeeById(2);
+			.salary(12000.0).build();
+		when(employeeRepository.findById("2")).thenReturn(Optional.ofNullable(employee2));
+		Employee savedEmployee = employeeService.getEmployeeById("2");
 		assertThat(savedEmployee).isNotNull();
 		assertEquals(employee2, savedEmployee);
 	}
@@ -78,10 +78,10 @@ public class EmployeeServiceTest {
 	@Test
 	public void givenEmployeeId_whenEmployeeIdDoesNotExist_thenThrowRuntimeException() {
 		Employee employee2 = Employee.builder()
-			.id(2)
+			.id("2")
 			.name("pranaya")
-			.salary(12000).build();
-		when(employeeRepository.findById(2)).thenReturn(Optional.of(employee2));
-		assertThrows(CustomException.class,()-> employeeService.getEmployeeById(9));
+			.salary(12000.0).build();
+		when(employeeRepository.findById("2")).thenReturn(Optional.of(employee2));
+		assertThrows(CustomException.class,()-> employeeService.getEmployeeById("9"));
 	}
 }
