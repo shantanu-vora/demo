@@ -24,7 +24,8 @@ public class ProductController {
     @GetMapping
     @RolesAllowed({"admin", "user"})
     public ResponseEntity<List<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+        List<Product> productList = productService.getAllProducts();
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 
     @GetMapping("/{id}")
@@ -32,7 +33,7 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable("id") String id) {
         Product product;
         product = productService.getProductById(id);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @PostMapping
@@ -41,7 +42,6 @@ public class ProductController {
     public ResponseEntity<Product> addProduct(@RequestBody ObjectNode jsonObject) {
         System.out.println(jsonObject);
         Product product = productService.saveProduct(jsonObject);
-//        return ResponseEntity.status(HttpStatus.CREATED).body("Product Details saved successfully with id: " + product.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
@@ -64,14 +64,14 @@ public class ProductController {
     @PutMapping("/{id}")
     @RolesAllowed("admin")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody ObjectNode jsonObject) {
-        System.out.println(jsonObject);
-        return new ResponseEntity<>(productService.updateProduct(id, jsonObject), HttpStatus.OK);
+        Product product = productService.updateProduct(id, jsonObject);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @DeleteMapping("/{id}")
     @RolesAllowed("admin")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") String id) {
         productService.deleteProduct(id);
-        return new ResponseEntity<>("Product deleted successfully!", HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("Product deleted successfully!");
     }
 }

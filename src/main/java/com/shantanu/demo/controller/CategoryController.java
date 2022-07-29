@@ -19,10 +19,6 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 
-//	@GetMapping("/{id}")
-//	public Category getCategoryById(@PathVariable("id") String categoryId) {
-//		return categoryService.getCategoryDetails(categoryId);
-//	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Category> getCategoryById(@PathVariable("id") String categoryId) {

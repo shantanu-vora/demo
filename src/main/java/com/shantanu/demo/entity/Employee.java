@@ -1,10 +1,7 @@
 package com.shantanu.demo.entity;
 
 import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -16,7 +13,8 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class Employee {
 
@@ -34,4 +32,5 @@ public class Employee {
         this.name = name;
         this.salary = salary;
     }
+
 }

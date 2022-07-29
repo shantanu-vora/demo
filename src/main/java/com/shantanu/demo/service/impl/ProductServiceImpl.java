@@ -54,13 +54,64 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product saveProduct(ObjectNode jsonObject) {
 		Product product = new Product();
+		setProductFields(product, jsonObject);
+		List<Category> categories = getCategoryList(jsonObject);
+		product.setCategories(categories);
+		Product existingProduct = productRepository.findProductByName(product.getName());
+
+		if(existingProduct == null) {
+			return productRepository.save(product);
+		} else {
+			throw new CustomException("Product name already exists in the Database");
+		}
+	}
+
+
+	@Override
+	public Product updateProduct(String id, ObjectNode jsonObject) {
+		Product savedProduct = getProductById(id);
+		setProductFields(savedProduct, jsonObject);
+		List<Category> categories = getCategoryList(jsonObject);
+		savedProduct.setCategories(categories);
+		return productRepository.save(savedProduct);
+	}
+
+	@Override
+	public void deleteProduct(String id) {
+		Product product = this.getProductById(id);
+		productRepository.delete(product);
+	}
+
+	private void setProductFields(Product product, ObjectNode jsonObject) {
 		product.setName(jsonObject.get("name").asText());
 		product.setBatchNo(jsonObject.get("batchNo").asText());
 		product.setPrice(jsonObject.get("price").asDouble());
 		product.setQuantity(jsonObject.get("quantity").asInt());
+	}
 
-//		List<String> categories = new ArrayList<>();
+	private List<Category> getCategoryList(ObjectNode jsonObject) {
 		List<Category> categories = new ArrayList<>();
+		jsonObject.get("categories").forEach(jsonNode -> {
+			String categoryName = jsonNode.asText();
+			if(!categoryName.equals("")) {
+				Category existingCategory = categoryRepository.findCategoryByName(categoryName);
+				if(existingCategory == null) {
+					Category category = new Category();
+					category.setName(categoryName);
+					categories.add(category);
+				} else {
+					categories.add(existingCategory);
+				}
+			}
+		});
+		return categories;
+	}
+}
+
+
+
+
+
 //		jsonObject.get("categories").forEach(jsonNode -> categories.add(jsonNode.asText()));
 
 //		for(String categoryName: categories) {
@@ -75,75 +126,3 @@ public class ProductServiceImpl implements ProductService {
 //				}
 //			}
 //		}
-
-		jsonObject.get("categories").forEach(jsonNode -> {
-			String categoryName = jsonNode.asText();
-			if(!categoryName.equals("")) {
-				Category existingCategory = categoryRepository.findCategoryByName(categoryName);
-				if(existingCategory == null) {
-					Category category = new Category();
-					category.setName(categoryName);
-					categories.add(category);
-				} else {
-					categories.add(existingCategory);
-				}
-			}
-		});
-
-		product.setCategories(categories);
-
-		Product existingProduct = productRepository.findProductByName(product.getName());
-
-		if(existingProduct == null) {
-			return productRepository.save(product);
-		} else {
-			throw new CustomException("Product name already exists in the Database");
-		}
-	}
-
-//	@Override
-//	public Product updateProduct(String id, Product product) {
-//		Product savedProduct = getProductById(id);
-//			savedProduct.setName(product.getName());
-//			savedProduct.setBatchNo(product.getBatchNo());
-//			savedProduct.setPrice(product.getPrice());
-//			savedProduct.setQuantity(product.getQuantity());
-//			return productRepository.save(savedProduct);
-//	}
-
-	@Override
-	public Product updateProduct(String id, ObjectNode jsonObject) {
-		System.out.println("Inside product service impl: " + jsonObject);
-		Product savedProduct = getProductById(id);
-		savedProduct.setName(jsonObject.get("name").asText());
-		savedProduct.setBatchNo(jsonObject.get("batchNo").asText());
-		savedProduct.setPrice(jsonObject.get("price").asDouble());
-		savedProduct.setQuantity(jsonObject.get("quantity").asInt());
-
-		List<Category> categories = new ArrayList<>();
-
-		jsonObject.get("categories").forEach(jsonNode -> {
-			String categoryName = jsonNode.asText();
-			if(!categoryName.equals("")) {
-				Category existingCategory = categoryRepository.findCategoryByName(categoryName);
-				if(existingCategory == null) {
-					Category category = new Category();
-					category.setName(categoryName);
-					categories.add(category);
-				} else {
-					categories.add(existingCategory);
-				}
-			}
-		});
-
-		savedProduct.setCategories(categories);
-
-		return productRepository.save(savedProduct);
-	}
-
-
-	@Override
-	public void deleteProduct(String id) {
-		productRepository.deleteById(id);
-	}
-}

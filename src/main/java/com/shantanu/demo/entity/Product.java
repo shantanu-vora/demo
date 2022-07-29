@@ -2,10 +2,7 @@ package com.shantanu.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -16,7 +13,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class Product {
 
@@ -56,4 +54,5 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
     }
+
 }
