@@ -17,7 +17,7 @@ public class CategoryServiceImpl implements CategoryService {
 	private CategoryRepository categoryRepository;
 
 	@Override
-	public Category getCategoryDetails(String categoryId) {
+	public Category getCategoryById(String categoryId) {
 		Optional<Category> optionalCategory = categoryRepository.findById(categoryId);
 
 		if(optionalCategory.isPresent()) {
@@ -28,7 +28,12 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<String> getAllProductsOfTheCategory(String categoryId) {
-		return null;
+	public List<Category> getAllCategories() {
+		return categoryRepository.findAll();
 	}
+
+//	@Override
+//	public List<String> getAllProductsOfTheCategory(String categoryId) {
+//		return null;
+//	}
 }

@@ -38,16 +38,34 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed("admin")
-    public ResponseEntity<?> addProduct(@RequestBody ObjectNode jsonObject) {
+    public ResponseEntity<Product> addProduct(@RequestBody ObjectNode jsonObject) {
         System.out.println(jsonObject);
         Product product = productService.saveProduct(jsonObject);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Product Details saved successfully with id: " + product.getId());
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Product Details saved successfully with id: " + product.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
+
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    @RolesAllowed("admin")
+//    public ResponseEntity<?> addProduct(@RequestBody Product product) {
+//        System.out.println(product);
+////        Product product = productService.saveProduct(jsonObject);
+//        return ResponseEntity.status(HttpStatus.CREATED).body("Product Details saved successfully with id: " + product.getId());
+//    }
+
+
+//    @PutMapping("/{id}")
+//    @RolesAllowed("admin")
+//    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
+//        return new ResponseEntity<>(productService.updateProduct(id, product), HttpStatus.OK);
+//    }
 
     @PutMapping("/{id}")
     @RolesAllowed("admin")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody Product product) {
-        return new ResponseEntity<>(productService.updateProduct(id, product), HttpStatus.OK);
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @RequestBody ObjectNode jsonObject) {
+        System.out.println(jsonObject);
+        return new ResponseEntity<>(productService.updateProduct(id, jsonObject), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

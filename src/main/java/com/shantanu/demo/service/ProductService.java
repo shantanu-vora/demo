@@ -9,7 +9,8 @@ public interface ProductService {
 
     List<Product> getAllProducts();
     Product getProductById(String id);
-    Product saveProduct(ObjectNode jsonNode);
-    Product updateProduct(String id, Product product);
+    Product saveProduct(ObjectNode jsonObject);
+//    Product updateProduct(String id, Product product);
+    Product updateProduct(String id, ObjectNode jsonObject);
     void deleteProduct(String id);
 }

@@ -1,5 +1,6 @@
 package com.shantanu.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +33,7 @@ public class Product {
     private String batchNo;
     private Double price;
     private Integer quantity;
-
+    @JsonIgnoreProperties(value = "products")
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "category_product", catalog = "demo",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -46,6 +47,7 @@ public class Product {
         this.quantity = quantity;
         this.categories = categories;
     }
+
 
     public Product(String id, String name, String batchNo, Double price, Integer quantity) {
         this.id = id;

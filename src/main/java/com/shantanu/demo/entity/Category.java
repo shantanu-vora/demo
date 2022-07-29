@@ -1,6 +1,6 @@
 package com.shantanu.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +30,8 @@ public class Category {
 	private String id;
 	@Column(unique = true)
 	private String name;
-	@JsonIgnore
+//	@JsonIgnore
+	@JsonIgnoreProperties(value = "categories")
 	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
 	@JoinTable(name = "category_product", catalog = "demo",
 					joinColumns = @JoinColumn(name = "category_id"),

@@ -59,21 +59,38 @@ public class ProductServiceImpl implements ProductService {
 		product.setPrice(jsonObject.get("price").asDouble());
 		product.setQuantity(jsonObject.get("quantity").asInt());
 
-		List<String> categories = new ArrayList<>();
-		jsonObject.get("categories").forEach(jsonNode -> categories.add(jsonNode.asText()));
+//		List<String> categories = new ArrayList<>();
+		List<Category> categories = new ArrayList<>();
+//		jsonObject.get("categories").forEach(jsonNode -> categories.add(jsonNode.asText()));
 
-		for(String categoryName: categories) {
+//		for(String categoryName: categories) {
+//			if(!categoryName.equals("")) {
+//				Category existingCategory = categoryRepository.findCategoryByName(categoryName);
+//				if(existingCategory == null) {
+//					Category category = new Category();
+//					category.setName(categoryName);
+//					product.getCategories().add(category);
+//				} else {
+//					product.getCategories().add(existingCategory);
+//				}
+//			}
+//		}
+
+		jsonObject.get("categories").forEach(jsonNode -> {
+			String categoryName = jsonNode.asText();
 			if(!categoryName.equals("")) {
 				Category existingCategory = categoryRepository.findCategoryByName(categoryName);
 				if(existingCategory == null) {
 					Category category = new Category();
 					category.setName(categoryName);
-					product.getCategories().add(category);
+					categories.add(category);
 				} else {
-					product.getCategories().add(existingCategory);
+					categories.add(existingCategory);
 				}
 			}
-		}
+		});
+
+		product.setCategories(categories);
 
 		Product existingProduct = productRepository.findProductByName(product.getName());
 
@@ -84,15 +101,46 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
+//	@Override
+//	public Product updateProduct(String id, Product product) {
+//		Product savedProduct = getProductById(id);
+//			savedProduct.setName(product.getName());
+//			savedProduct.setBatchNo(product.getBatchNo());
+//			savedProduct.setPrice(product.getPrice());
+//			savedProduct.setQuantity(product.getQuantity());
+//			return productRepository.save(savedProduct);
+//	}
+
 	@Override
-	public Product updateProduct(String id, Product product) {
+	public Product updateProduct(String id, ObjectNode jsonObject) {
+		System.out.println("Inside product service impl: " + jsonObject);
 		Product savedProduct = getProductById(id);
-			savedProduct.setName(product.getName());
-			savedProduct.setBatchNo(product.getBatchNo());
-			savedProduct.setPrice(product.getPrice());
-			savedProduct.setQuantity(product.getQuantity());
-			return productRepository.save(savedProduct);
+		savedProduct.setName(jsonObject.get("name").asText());
+		savedProduct.setBatchNo(jsonObject.get("batchNo").asText());
+		savedProduct.setPrice(jsonObject.get("price").asDouble());
+		savedProduct.setQuantity(jsonObject.get("quantity").asInt());
+
+		List<Category> categories = new ArrayList<>();
+
+		jsonObject.get("categories").forEach(jsonNode -> {
+			String categoryName = jsonNode.asText();
+			if(!categoryName.equals("")) {
+				Category existingCategory = categoryRepository.findCategoryByName(categoryName);
+				if(existingCategory == null) {
+					Category category = new Category();
+					category.setName(categoryName);
+					categories.add(category);
+				} else {
+					categories.add(existingCategory);
+				}
+			}
+		});
+
+		savedProduct.setCategories(categories);
+
+		return productRepository.save(savedProduct);
 	}
+
 
 	@Override
 	public void deleteProduct(String id) {
