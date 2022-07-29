@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
-import java.util.Objects;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -22,9 +21,7 @@ public class PostServiceImpl implements PostService {
 	public ResponseEntity<ArrayNode> fetchAllPosts(String getAllPosts) {
 		RestTemplate restTemplate = new RestTemplate();
 //		return restTemplate.getForObject(getAllPosts, ArrayList.class);
-		ResponseEntity<ArrayNode> response = restTemplate.getForEntity(getAllPosts, ArrayNode.class);
-		System.out.println(response.getBody());
-		return response;
+		return restTemplate.getForEntity(getAllPosts, ArrayNode.class);
 	}
 
 	@Override
@@ -32,9 +29,7 @@ public class PostServiceImpl implements PostService {
 		RestTemplate restTemplate = new RestTemplate();
 //		String result = restTemplate.getForObject(getAllPosts + File.separator + id, String.class);
 //		return objectMapper.readValue(result, new TypeReference<>() {});
-		ResponseEntity<ObjectNode> response = restTemplate.getForEntity(getAllPosts + File.separator + id, ObjectNode.class);
-		System.out.println(Objects.requireNonNull(response.getBody()).path("tags"));
-		return response;
+		return restTemplate.getForEntity(getAllPosts + File.separator + id, ObjectNode.class);
 
 	}
 }

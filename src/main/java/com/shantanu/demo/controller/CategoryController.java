@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -21,12 +22,14 @@ public class CategoryController {
 
 
 	@GetMapping("/{id}")
+	@RolesAllowed("admin")
 	public ResponseEntity<Category> getCategoryById(@PathVariable("id") String categoryId) {
 		Category category = categoryService.getCategoryById(categoryId);
 		return ResponseEntity.ok(category);
 	}
 
 	@GetMapping
+	@RolesAllowed("admin")
 	public ResponseEntity<List<Category>> getAllCategories() {
 		return ResponseEntity.ok(categoryService.getAllCategories());
 	}

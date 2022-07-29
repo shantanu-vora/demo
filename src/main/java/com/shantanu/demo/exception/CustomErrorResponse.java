@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CustomErrorResponse {
 
-    private int status;
-    private String message;
     private Long timestamp;
+    private int status;
+    private String error;
+    private String message;
+
 }
