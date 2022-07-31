@@ -1,11 +1,12 @@
 package com.shantanu.demo.service.impl;
 
 import com.shantanu.demo.entity.Category;
-import com.shantanu.demo.exception.CustomException;
 import com.shantanu.demo.repository.CategoryRepository;
 import com.shantanu.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
 		if(optionalCategory.isPresent()) {
 			return optionalCategory.get();
 		} else {
-			throw new CustomException("There is no category with the given id: " + categoryId);
+//			throw new CustomException("There is no category with the given id: " + categoryId);
+			throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
 		}
 	}
 

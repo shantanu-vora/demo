@@ -20,7 +20,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
-    @GenericGenerator(name = "product_seq", strategy = "com.shantanu.demo.sequencegenerator.SequenceIdGenerator",
+    @GenericGenerator(name = "employee_seq", strategy = "com.shantanu.demo.sequencegenerator.SequenceIdGenerator",
             parameters = {
                     @Parameter(name = SequenceIdGenerator.INCREMENT_PARAM, value = "1"),
                     @Parameter(name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "EMP_"),

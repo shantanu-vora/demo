@@ -1,6 +1,5 @@
 package com.shantanu.demo.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shantanu.demo.service.PostService;
@@ -41,7 +40,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     @RolesAllowed("admin")
-    public ResponseEntity<ObjectNode> getPostById(@PathVariable("id") @Pattern(regexp = "^\\d+$") String id) throws JsonProcessingException {
+    public ResponseEntity<ObjectNode> getPostById(@PathVariable("id") @Pattern(regexp = "^\\d+$") String id) {
 //        RestTemplate restTemplate = new RestTemplate();
 //        String result = restTemplate.getForObject(getAllPosts + File.separator + id, String.class);
 //        ObjectMapper objectMapper = new ObjectMapper();

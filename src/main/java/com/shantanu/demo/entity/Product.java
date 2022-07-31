@@ -27,6 +27,7 @@ public class Product {
             @Parameter(name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")})
     private String id;
 
+    @Column(unique = true, name = "name")
     private String name;
     private String batchNo;
     private Double price;

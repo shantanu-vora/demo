@@ -1,15 +1,18 @@
 package com.shantanu.demo.exception;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class CustomErrorResponse {
 
     private Long timestamp;
     private int status;
-    private String error;
+    private HttpStatus error;
     private String message;
 
 }

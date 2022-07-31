@@ -3,12 +3,14 @@ package com.shantanu.demo.service.impl;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shantanu.demo.entity.Category;
 import com.shantanu.demo.entity.Product;
-import com.shantanu.demo.exception.CustomException;
 import com.shantanu.demo.repository.CategoryRepository;
 import com.shantanu.demo.repository.ProductRepository;
 import com.shantanu.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +49,15 @@ public class ProductServiceImpl implements ProductService {
 		if(optionalProduct.isPresent()) {
 			return optionalProduct.get();
 		} else {
-			throw new CustomException("Product with product id " + id + " does not exist");
+//			throw new CustomException("Product with product id " + id + " does not exist");
+			throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
 		}
 	}
 
 	@Override
 	public Product saveProduct(ObjectNode jsonObject) {
 		Product product = new Product();
+		product.setName(jsonObject.get("name").asText());
 		setProductFields(product, jsonObject);
 		List<Category> categories = getCategoryList(jsonObject);
 		product.setCategories(categories);
@@ -62,7 +66,8 @@ public class ProductServiceImpl implements ProductService {
 		if(existingProduct == null) {
 			return productRepository.save(product);
 		} else {
-			throw new CustomException("Product name already exists in the Database");
+//			throw new CustomException("Product name already exists in the Database");
+			throw new DataIntegrityViolationException("Product name already exists. Enter a unique product name");
 		}
 	}
 
@@ -73,7 +78,15 @@ public class ProductServiceImpl implements ProductService {
 		setProductFields(savedProduct, jsonObject);
 		List<Category> categories = getCategoryList(jsonObject);
 		savedProduct.setCategories(categories);
-		return productRepository.save(savedProduct);
+//		Product existingProduct = productRepository.findProductByName(savedProduct.getName());
+
+//		if(existingProduct == null) {
+			return productRepository.save(savedProduct);
+//		} else {
+//			throw new CustomException("Product name already exists in the Database");
+//			throw new DataIntegrityViolationException("Product name already exists. Enter a unique product name");
+//		}
+
 	}
 
 	@Override
@@ -83,7 +96,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	private void setProductFields(Product product, ObjectNode jsonObject) {
-		product.setName(jsonObject.get("name").asText());
+//		product.setName(jsonObject.get("name").asText());
 		product.setBatchNo(jsonObject.get("batchNo").asText());
 		product.setPrice(jsonObject.get("price").asDouble());
 		product.setQuantity(jsonObject.get("quantity").asInt());

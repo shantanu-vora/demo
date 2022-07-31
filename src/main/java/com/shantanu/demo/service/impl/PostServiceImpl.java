@@ -1,6 +1,5 @@
 package com.shantanu.demo.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -25,11 +24,12 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public ResponseEntity<ObjectNode> fetchPostById(String getAllPosts, int id) throws JsonProcessingException {
+	public ResponseEntity<ObjectNode> fetchPostById(String getAllPosts, int id) {
 		RestTemplate restTemplate = new RestTemplate();
 //		String result = restTemplate.getForObject(getAllPosts + File.separator + id, String.class);
 //		return objectMapper.readValue(result, new TypeReference<>() {});
-		return restTemplate.getForEntity(getAllPosts + File.separator + id, ObjectNode.class);
+
+			return restTemplate.getForEntity(getAllPosts + File.separator + id, ObjectNode.class);
 
 	}
 }
