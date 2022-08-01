@@ -5,10 +5,8 @@ import com.shantanu.demo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.security.RolesAllowed;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -23,8 +21,13 @@ public class ProjectController {
 
 	@GetMapping
 	@RolesAllowed({"admin", "user"})
-	public ResponseEntity<List<Project>> getAllProjects() {
-		List<Project> projects = projectService.getAllProjects();
+	public ResponseEntity<List<Project>> getAllProjects(@RequestParam(value = "maxCost", required = false) Double cost) {
+		List<Project> projects;
+		if(cost == null) {
+			projects = projectService.getAllProjects();
+		} else {
+			projects = projectService.getProjectsWithCostLessThan(cost);
+		}
 		return ResponseEntity.ok(projects);
 	}
 
@@ -34,4 +37,12 @@ public class ProjectController {
 		Project project = projectService.getProjectById(projectId);
 		return ResponseEntity.ok(project);
 	}
+
+//	@GetMapping
+//	@RolesAllowed({"admin", "user"})
+//	public ResponseEntity<List<Project>> getAllProjects(@RequestParam(value = "costLessThan", required = false) Double cost) {
+//		List<Project> projects = projectService.getProjectsWithCostLessThan(cost);
+//		return ResponseEntity.ok(projects);
+//	}
+
 }

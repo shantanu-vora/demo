@@ -31,4 +31,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public List<Project> getAllProjects() {
 		return projectRepository.findAll();
 	}
+
+	@Override
+	public List<Project> getProjectsWithCostLessThan(Double cost) {
+		return projectRepository.findProjectsWithCostLessThan(cost);
+	}
 }

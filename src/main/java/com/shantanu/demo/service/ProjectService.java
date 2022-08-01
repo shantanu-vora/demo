@@ -8,4 +8,5 @@ public interface ProjectService {
 
 	 Project getProjectById(String projectId);
 	 List<Project> getAllProjects();
+	 List<Project> getProjectsWithCostLessThan(Double cost);
 }
