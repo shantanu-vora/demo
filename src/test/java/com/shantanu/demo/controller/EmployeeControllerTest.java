@@ -71,10 +71,7 @@ public class EmployeeControllerTest {
 	@WithMockUser(roles = "user")
 	public void givenEmployeeId_whenGetEmployeeById_thenReturnEmployeeObject() throws Exception {
 		int employeeId = 1;
-		Employee employee = Employee.builder()
-			.id("1")
-			.name("pranaya")
-			.salary(12000.0).build();
+		Employee employee = Employee.builder().id("1").name("pranaya").salary(12000.0).build();
 
 		when(employeeService.getEmployeeById(employee.getId())).thenReturn(employee);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/employees/{id}", employeeId).accept(MediaType.APPLICATION_JSON);

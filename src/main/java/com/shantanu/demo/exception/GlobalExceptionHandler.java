@@ -3,11 +3,14 @@ package com.shantanu.demo.exception;
 //import org.hibernate.exception.ConstraintViolationException;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
@@ -18,11 +21,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException exception) {
-			ApiError apiError = new ApiError();
-			apiError.setStatus(HttpStatus.BAD_REQUEST.value());
-			apiError.setError(HttpStatus.BAD_REQUEST);
-			apiError.setMessage("Invalid Path Variable");
-			apiError.setTimestamp(LocalDateTime.now());
+		ApiError apiError = new ApiError();
+		apiError.setStatus(HttpStatus.BAD_REQUEST.value());
+		apiError.setError(HttpStatus.BAD_REQUEST);
+		apiError.setMessage("Invalid Path Variable");
+		apiError.setTimestamp(LocalDateTime.now());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}
 
@@ -46,5 +49,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		apiError.setError(HttpStatus.CONFLICT);
 		apiError.setTimestamp(LocalDateTime.now());;
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
+	}
+
+//	@ExceptionHandler(MissingServletRequestParameterException.class)
+//	public void handleMissingParams(MissingServletRequestParameterException ex) {
+////		String name = ex.getParameterName();
+//		System.out.println(ex.getClass());
+////		System.out.println(name + " parameter is missing");
+//		// Actual exception handling
+//	}
+
+	@Override
+	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		System.out.println(ex.getMessage());
+		ApiError apiError = new ApiError();
+		apiError.setStatus(status.value());
+		apiError.setMessage(ex.getMessage());
+		apiError.setError(status);
+		apiError.setTimestamp(LocalDateTime.now());
+
+//		return super.handleMissingServletRequestParameter(ex, headers, status, request);
+		return ResponseEntity.status(status).body(apiError);
 	}
 }

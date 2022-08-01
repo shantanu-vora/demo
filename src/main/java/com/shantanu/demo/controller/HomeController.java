@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shantanu.demo.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,13 @@ public class HomeController {
 
     @PostMapping("/api/test")
     public ResponseEntity<String> validateRequestHeader(@RequestHeader("Content-Length") @Min(25) int value) {
-        return ResponseEntity.ok("Headers are read successfully ");
+//        return ResponseEntity.ok("Headers are read successfully ");
+        return new ResponseEntity<>("Headers are read successfully", HttpStatus.OK);
     }
 
     @GetMapping("/api/weather")
     @RolesAllowed("admin")
-    public ResponseEntity<ObjectNode> getWeather(@RequestParam("city") String city) throws JsonProcessingException {
+    public ResponseEntity<ObjectNode> getWeather(@RequestParam(value = "city", required = true) String city) throws JsonProcessingException {
 //        city = String.join("+", city.split(" "));
 //        String url = "http://api.weatherstack.com/current?access_key=f216262609602500c30959e57ef04c81&units=s&query="+city;
 //        RestTemplate restTemplate = new RestTemplate();
