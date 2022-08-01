@@ -7,5 +7,4 @@ import org.springframework.http.ResponseEntity;
 public interface HomeService {
 
 	ResponseEntity<ObjectNode> fetchCurrentWeather(String weatherStackApi, String city) throws JsonProcessingException;
-
 }

@@ -8,7 +8,6 @@ import org.hibernate.internal.util.config.ConfigurationHelper;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.type.LongType;
 import org.hibernate.type.Type;
-
 import java.io.Serializable;
 import java.util.Properties;
 
@@ -23,7 +22,6 @@ public class SequenceIdGenerator extends SequenceStyleGenerator {
 
 	@Override
 	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
-//		return super.generate(session, object);
 			return valuePrefix + String.format(numberFormat, super.generate(session, object));
 	}
 

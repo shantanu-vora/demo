@@ -1,7 +1,5 @@
 package com.shantanu.demo.exception;
 
-//import org.hibernate.exception.ConstraintViolationException;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 
@@ -31,7 +28,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<ApiError> handleHttpClientErrorException(HttpClientErrorException exception) {
-		System.out.println(exception.getStatusCode());
 		ApiError apiError = new ApiError();
 		apiError.setStatus(HttpStatus.NOT_FOUND.value());
 		apiError.setMessage("Resource with the given id not found");
@@ -42,7 +38,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ApiError> handleDataIntegrityViolation(DataIntegrityViolationException exception) {
-//		System.out.println(exception.getStatusCode());
 		ApiError apiError = new ApiError();
 		apiError.setStatus(HttpStatus.CONFLICT.value());
 		apiError.setMessage(exception.getMessage());
@@ -51,24 +46,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
 	}
 
-//	@ExceptionHandler(MissingServletRequestParameterException.class)
-//	public void handleMissingParams(MissingServletRequestParameterException ex) {
-////		String name = ex.getParameterName();
-//		System.out.println(ex.getClass());
-////		System.out.println(name + " parameter is missing");
-//		// Actual exception handling
-//	}
-
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		System.out.println(ex.getMessage());
 		ApiError apiError = new ApiError();
 		apiError.setStatus(status.value());
 		apiError.setMessage(ex.getMessage());
 		apiError.setError(status);
 		apiError.setTimestamp(LocalDateTime.now());
-
-//		return super.handleMissingServletRequestParameter(ex, headers, status, request);
 		return ResponseEntity.status(status).body(apiError);
 	}
 }

@@ -5,7 +5,6 @@ import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

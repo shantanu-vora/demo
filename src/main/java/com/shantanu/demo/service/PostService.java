@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.ResponseEntity;
 
 public interface PostService {
-	ResponseEntity<ArrayNode> fetchAllPosts(String get_all_posts_api);
 
+	ResponseEntity<ArrayNode> fetchAllPosts(String get_all_posts_api);
 	ResponseEntity<ObjectNode> fetchPostById(String getAllPosts, int id);
 }

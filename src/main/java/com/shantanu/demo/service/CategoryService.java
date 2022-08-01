@@ -7,8 +7,5 @@ import java.util.List;
 public interface CategoryService {
 
 	Category getCategoryById(String categoryId);
-
-//	public List<String> getAllProductsOfTheCategory(String categoryId);
-
 	List<Category> getAllCategories();
 }

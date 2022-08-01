@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import java.io.File;
 
 @Service
@@ -19,17 +18,12 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public ResponseEntity<ArrayNode> fetchAllPosts(String getAllPosts) {
 		RestTemplate restTemplate = new RestTemplate();
-//		return restTemplate.getForObject(getAllPosts, ArrayList.class);
 		return restTemplate.getForEntity(getAllPosts, ArrayNode.class);
 	}
 
 	@Override
 	public ResponseEntity<ObjectNode> fetchPostById(String getAllPosts, int id) {
 		RestTemplate restTemplate = new RestTemplate();
-//		String result = restTemplate.getForObject(getAllPosts + File.separator + id, String.class);
-//		return objectMapper.readValue(result, new TypeReference<>() {});
-
-			return restTemplate.getForEntity(getAllPosts + File.separator + id, ObjectNode.class);
-
+		return restTemplate.getForEntity(getAllPosts + File.separator + id, ObjectNode.class);
 	}
 }

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.security.RolesAllowed;
 import javax.validation.constraints.Min;
 
@@ -17,34 +16,21 @@ import javax.validation.constraints.Min;
 @Validated
 public class HomeController {
 
-//    @Autowired
-//    ObjectMapper objectMapper;
+	@Autowired
+	private HomeService homeService;
 
-    @Autowired
-    private HomeService homeService;
+	@Value("${weatherStackApiUrl}")
+	private String weatherStackApi;
 
-    @Value("${weatherStackApiUrl}")
-    private String weatherStackApi;
+	@PostMapping("/api/test")
+	public ResponseEntity<String> validateRequestHeader(@RequestHeader("Content-Length") @Min(25) int value) {
+		return new ResponseEntity<>("Headers are read successfully", HttpStatus.OK);
+	}
 
-
-    @PostMapping("/api/test")
-    public ResponseEntity<String> validateRequestHeader(@RequestHeader("Content-Length") @Min(25) int value) {
-//        return ResponseEntity.ok("Headers are read successfully ");
-        return new ResponseEntity<>("Headers are read successfully", HttpStatus.OK);
-    }
-
-    @GetMapping("/api/weather")
-    @RolesAllowed({"admin", "user"})
-    public ResponseEntity<ObjectNode> getWeather(@RequestParam(value = "city", required = true) String city) throws JsonProcessingException {
-//        city = String.join("+", city.split(" "));
-//        String url = "http://api.weatherstack.com/current?access_key=f216262609602500c30959e57ef04c81&units=s&query="+city;
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(url, String.class);
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        Map<String, Object> map = objectMapper.readValue(result, new TypeReference<>() {});
-
-//        return ResponseEntity.status(HttpStatus.OK).body(map);
-        ResponseEntity<ObjectNode> response = homeService.fetchCurrentWeather(weatherStackApi, city);
-        return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-    }
+	@GetMapping("/api/weather")
+	@RolesAllowed({"admin", "user"})
+	public ResponseEntity<ObjectNode> getWeather(@RequestParam(value = "city", required = true) String city) throws JsonProcessingException {
+		ResponseEntity<ObjectNode> response = homeService.fetchCurrentWeather(weatherStackApi, city);
+		return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+	}
 }

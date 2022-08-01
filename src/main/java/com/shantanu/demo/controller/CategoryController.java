@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.security.RolesAllowed;
 import javax.validation.constraints.Pattern;
 import java.util.List;
@@ -35,13 +34,4 @@ public class CategoryController {
 		List<Category> categories = categoryService.getAllCategories();
 		return ResponseEntity.ok(categories);
 	}
-
-//	@PostMapping
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public ResponseEntity<String> addCategory(@RequestBody ObjectNode jsonObject) {
-//		System.out.println(jsonObject.get("products").get(0).get("name"));
-////		Product product = productService.saveProduct(jsonObject);
-//		return ResponseEntity.status(HttpStatus.CREATED).body("Product Details saved successfully with id: " + jsonObject.get("name").asText());
-//	}
-
 }

@@ -14,5 +14,4 @@ public class CustomErrorResponse {
     private int status;
     private HttpStatus error;
     private String message;
-
 }

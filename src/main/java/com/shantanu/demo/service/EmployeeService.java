@@ -6,10 +6,10 @@ import com.shantanu.demo.entity.Employee;
 import java.util.List;
 
 public interface EmployeeService {
+
     Employee getEmployeeById(String employeeId);
     List<Employee> getAllEmployees();
     Employee saveEmployee(ObjectNode jsonObject);
-    //    Product updateProduct(String id, Product product);
     Employee updateEmployee(String id, ObjectNode jsonObject);
     void deleteEmployee(String id);
 }
