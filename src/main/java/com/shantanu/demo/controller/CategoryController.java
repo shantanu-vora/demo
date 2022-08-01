@@ -23,14 +23,14 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	@GetMapping("/{id}")
-	@RolesAllowed("admin")
+	@RolesAllowed({"admin", "user"})
 	public ResponseEntity<Category> getCategoryById(@PathVariable("id") @Pattern(regexp = "^CAT_\\d{5}$") String categoryId) {
 		Category category = categoryService.getCategoryById(categoryId);
 		return ResponseEntity.ok(category);
 	}
 
 	@GetMapping
-	@RolesAllowed("admin")
+	@RolesAllowed({"admin", "user"})
 	public ResponseEntity<List<Category>> getAllCategories() {
 		List<Category> categories = categoryService.getAllCategories();
 		return ResponseEntity.ok(categories);

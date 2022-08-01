@@ -26,6 +26,7 @@ public class Category {
 									@Parameter(name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "CAT_"),
 									@Parameter(name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")})
 	private String id;
+
 	@Column(unique = true)
 	private String name;
 //	@JsonIgnore

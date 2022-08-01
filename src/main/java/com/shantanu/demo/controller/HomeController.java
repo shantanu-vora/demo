@@ -34,7 +34,7 @@ public class HomeController {
     }
 
     @GetMapping("/api/weather")
-    @RolesAllowed("admin")
+    @RolesAllowed({"admin", "user"})
     public ResponseEntity<ObjectNode> getWeather(@RequestParam(value = "city", required = true) String city) throws JsonProcessingException {
 //        city = String.join("+", city.split(" "));
 //        String url = "http://api.weatherstack.com/current?access_key=f216262609602500c30959e57ef04c81&units=s&query="+city;

@@ -28,7 +28,7 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    @RolesAllowed("admin")
+    @RolesAllowed({"admin", "user"})
     public ResponseEntity<ArrayNode> getAllPosts() {
 //        RestTemplate restTemplate = new RestTemplate();
 //        List<?> result = restTemplate.getForObject(GET_ALL_POSTS_API, ArrayList.class);
@@ -39,7 +39,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    @RolesAllowed("admin")
+    @RolesAllowed({"admin", "user"})
     public ResponseEntity<ObjectNode> getPostById(@PathVariable("id") @Pattern(regexp = "^\\d+$") String id) {
 //        RestTemplate restTemplate = new RestTemplate();
 //        String result = restTemplate.getForObject(getAllPosts + File.separator + id, String.class);
