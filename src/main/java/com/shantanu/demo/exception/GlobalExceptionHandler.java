@@ -19,6 +19,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException exception) {
 		ApiError apiError = new ApiError();
+		System.out.println(exception.getClass());
 		apiError.setStatus(HttpStatus.BAD_REQUEST.value());
 		apiError.setError(HttpStatus.BAD_REQUEST);
 		apiError.setMessage("Invalid Path Variable");

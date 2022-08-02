@@ -2,6 +2,7 @@ package com.shantanu.demo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shantanu.demo.entity.Product;
 import com.shantanu.demo.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +23,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
 
@@ -57,15 +56,13 @@ public class ProductControllerTest {
 	@Test
 	@WithMockUser(roles = {"user","admin"})
 	public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception {
-		Product product1 = new Product("1", "Mac Mini", "APP102", 30000.0, 3);
-		Product product2 = new Product("2", "Mac Pro", "APP103", 20000.0, 1);
-		Product product3 = new Product("3", "Mac iMac24\"", "APP102", 30000.0, 3);
-		List<Product> productList = new ArrayList<>(Arrays.asList(product1, product2, product3));
+		Product product1 = new Product("PRO_00001", "Mac Mini", "APP102", 30000.0, 3);
+		Product product2 = new Product("PRO_00002", "Mac Pro", "APP103", 20000.0, 1);
+		List<Product> productList = new ArrayList<>(List.of(product1, product2));
 		when(productService.getAllProducts()).thenReturn(productList);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products").accept(MediaType.APPLICATION_JSON);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products");
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
 		String expectedJson = this.mapToJson(productList);
 		String outputInJson = result.getResponse().getContentAsString();
 		assertThat(outputInJson).isEqualTo(expectedJson);
@@ -75,19 +72,12 @@ public class ProductControllerTest {
 	@Test
 	@WithMockUser(roles = {"user", "admin"})
 	public void givenProductId_whenGetProductById_thenReturnProductObject() throws Exception {
-		int productId = 1;
-		Product product = Product.builder()
-			.id("1")
-			.name("Mac Pro")
-			.batchNo("APP103")
-			.price(10000.0)
-			.quantity(3).build();
+		String productId = "PRO_00001";
+		Product product = new Product("PRO_00001", "Mac Pro", "APP103", 10000.0, 3);
+
 		when(productService.getProductById(product.getId())).thenReturn(product);
-
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products/{id}", productId)
-			.accept(MediaType.APPLICATION_JSON);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products/{id}", productId);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
 		String expectedJson = this.mapToJson(product);
 		String outputInJson = result.getResponse().getContentAsString();
 		assertThat(outputInJson).isEqualTo(expectedJson);
@@ -97,19 +87,15 @@ public class ProductControllerTest {
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenProductObject_whenAddProduct_thenReturnSavedProduct() throws Exception {
-		Product product = Product.builder()
-			.id("1")
-			.name("Mac Pro")
-			.batchNo("APP103")
-			.price(10000.0)
-			.quantity(3).build();
-
+		Product product = new Product("PRO_00001", "Mac Pro", "APP103", 10000.0, 3);
 		String inputInJson = this.mapToJson(product);
-		when(productService.saveProduct(any(Product.class))).thenReturn(product);
+		ObjectNode jsonObject = objectMapper.convertValue(product, ObjectNode.class);
+		when(productService.saveProduct(jsonObject)).thenReturn(product);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/products")
 			.accept(MediaType.APPLICATION_JSON).content(inputInJson)
 			.contentType(MediaType.APPLICATION_JSON);
+
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String outputInJson = response.getContentAsString();
@@ -121,40 +107,32 @@ public class ProductControllerTest {
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenUpdatedProduct_whenUpdateProduct_thenReturnUpdatedProductObject() throws Exception {
-		String productId = "1";
-		Product savedProduct = Product.builder()
-			.id("1")
-			.name("Mac Pro")
-			.batchNo("APP103")
-			.price(10000.0)
-			.quantity(3).build();
-
-		Product updatedProduct = Product.builder()
-			.id("1")
-			.name("Mac Book Pro")
-			.batchNo("APP100")
-			.price(15000.0)
-			.quantity(1).build();
+		String productId = "PRO_00001";
+		Product savedProduct = new Product("PRO_00001", "Mac Pro", "APP103", 10000.0, 3);
+		Product updatedProduct = new Product("PRO_00001", "Mac Book Pro", "APP100", 15000.0, 1);
+		String inputInJson = this.mapToJson(updatedProduct);
+		ObjectNode jsonObject = objectMapper.convertValue(updatedProduct, ObjectNode.class);
 
 		when(productService.getProductById(productId)).thenReturn(savedProduct);
-		when(productService.updateProduct("1", updatedProduct)).thenReturn(updatedProduct);
-		String inputInJson = this.mapToJson(updatedProduct);
+		when(productService.updateProduct(productId, jsonObject)).thenReturn(updatedProduct);
+
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/products/{id}", productId)
 			.accept(MediaType.APPLICATION_JSON).content(inputInJson)
 			.contentType(MediaType.APPLICATION_JSON);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-		String outputInJson = result.getResponse().getContentAsString();
+		MockHttpServletResponse response = result.getResponse();
+		String outputInJson = response.getContentAsString();
 		assertThat(outputInJson).isEqualTo(inputInJson);
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
 	@DisplayName("JUnit test for deleteProduct method")
 	@Test
 	@WithMockUser(roles = "admin")
 	public void givenProductId_whenDeleteProduct_thenReturn200() throws Exception {
-		String productId = "1";
+		String productId = "PRO_00001";
 		willDoNothing().given(productService).deleteProduct(productId);
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/products/{id}", productId)
-				.contentType(MediaType.TEXT_PLAIN_VALUE);
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/products/{id}", productId);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 		MockHttpServletResponse response = result.getResponse();
 		String outputInJson = response.getContentAsString();
@@ -163,7 +141,6 @@ public class ProductControllerTest {
 	}
 
 	private String mapToJson(Object object) throws JsonProcessingException {
-		ObjectMapper objectMapper = new ObjectMapper();
 		return objectMapper.writeValueAsString(object);
 	}
 }

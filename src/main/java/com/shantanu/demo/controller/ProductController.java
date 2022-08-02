@@ -20,9 +20,6 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-//    public ProductController() {
-//    }
-
 	@GetMapping
 	@RolesAllowed({"admin", "user"})
 	public ResponseEntity<List<Product>> getAllProducts() {
@@ -40,7 +37,6 @@ public class ProductController {
 	@PostMapping
 	@RolesAllowed("admin")
 	public ResponseEntity<Product> addProduct(@RequestBody ObjectNode jsonObject) {
-		System.out.println(jsonObject);
 		Product product = productService.saveProduct(jsonObject);
 		return ResponseEntity.status(HttpStatus.CREATED).body(product);
 	}

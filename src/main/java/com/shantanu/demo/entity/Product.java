@@ -5,7 +5,6 @@ import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,13 +38,13 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
 
-    public Product(String name, String batchNo, Double price, Integer quantity, List<Category> categories) {
-        this.name = name;
-        this.batchNo = batchNo;
-        this.price = price;
-        this.quantity = quantity;
-        this.categories = categories;
-    }
+//    public Product(String name, String batchNo, Double price, Integer quantity, List<Category> categories) {
+//        this.name = name;
+//        this.batchNo = batchNo;
+//        this.price = price;
+//        this.quantity = quantity;
+//        this.categories = categories;
+//    }
 
 
     public Product(String id, String name, String batchNo, Double price, Integer quantity) {

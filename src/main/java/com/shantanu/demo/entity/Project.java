@@ -44,4 +44,9 @@ public class Project {
 		this.title = title;
 		this.employees = employees;
 	}
+
+	public Project(String id, String title) {
+		this.id = id;
+		this.title = title;
+	}
 }
