@@ -36,12 +36,11 @@ public class Category {
 					inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Product> products = new ArrayList<>();
 
-//	public Category(String name) {
-//		this.name = name;
-//	}
-//
-//	public Category(String name, List<Product> products) {
-//		this.name = name;
-//		this.products = products;
-//	}
+	public Category(String id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 }
+
+
+

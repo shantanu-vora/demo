@@ -63,9 +63,11 @@ public class ProductControllerTest {
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products");
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		MockHttpServletResponse response = result.getResponse();
 		String expectedJson = this.mapToJson(productList);
-		String outputInJson = result.getResponse().getContentAsString();
+		String outputInJson = response.getContentAsString();
 		assertThat(outputInJson).isEqualTo(expectedJson);
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
 	@DisplayName("Junit test for getProductById")
@@ -78,9 +80,11 @@ public class ProductControllerTest {
 		when(productService.getProductById(product.getId())).thenReturn(product);
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products/{id}", productId);
 		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		MockHttpServletResponse response = result.getResponse();
 		String expectedJson = this.mapToJson(product);
-		String outputInJson = result.getResponse().getContentAsString();
+		String outputInJson = response.getContentAsString();
 		assertThat(outputInJson).isEqualTo(expectedJson);
+		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
 	@DisplayName("Junit test for addProduct method")
