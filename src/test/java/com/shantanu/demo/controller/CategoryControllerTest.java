@@ -80,26 +80,8 @@ class CategoryControllerTest {
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 	}
 
-
 	private String mapToJson(Object object) throws JsonProcessingException {
 		return objectMapper.writeValueAsString(object);
 	}
-
-
-//	@DisplayName("Junit test for getAllProducts method")
-//	@Test
-//	@WithMockUser(roles = {"user","admin"})
-//	public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception {
-//		Product product1 = new Product("PRO_00001", "Mac Mini", "APP102", 30000.0, 3);
-//		Product product2 = new Product("PRO_00002", "Mac Pro", "APP103", 20000.0, 1);
-//		List<Product> productList = new ArrayList<>(List.of(product1, product2));
-//		when(productService.getAllProducts()).thenReturn(productList);
-//
-//		RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/products");
-//		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//		String expectedJson = this.mapToJson(productList);
-//		String outputInJson = result.getResponse().getContentAsString();
-//		assertThat(outputInJson).isEqualTo(expectedJson);
-//	}
 
 }

@@ -16,10 +16,9 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@WebMvcTest(PostController.class)
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PostControllerTest {

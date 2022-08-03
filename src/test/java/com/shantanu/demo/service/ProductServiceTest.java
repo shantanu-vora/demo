@@ -39,26 +39,12 @@ public class ProductServiceTest {
 	@BeforeEach
 	public void setup() {
 		product1 = new Product("PRO_00001", "Mac Pro", "APP103", 10000.0, 3);
-//		product1 = Product.builder()
-//			.id("1")
-//			.name("Mac Pro")
-//			.batchNo("APP103")
-//			.price(10000.0)
-//			.quantity(3)
-//			.build();
 	}
 
 	@DisplayName("JUnit test for getAllProducts method")
 	@Test
 	public void givenProductsList_whenGetAllProducts_thenReturnProductsList() {
 		Product product2 = new Product("PRO_00002", "Mac Studio", "APP789", 9000.0, 5);
-//		Product product2 = Product.builder()
-//			.id("2")
-//			.name("Mac Studio")
-//			.batchNo("APP789")
-//			.price(9000.0)
-//			.quantity(5)
-//			.build();
 		when(productRepository.findAll()).thenReturn(List.of(this.product1, product2));
 		List<Product> productList = productService.getAllProducts();
 		assertThat(productList).isNotNull();
@@ -99,7 +85,6 @@ public class ProductServiceTest {
 		when(productRepository.save(product1)).thenReturn(product1);
 		when(productRepository.findProductByName((product1.getName()))).thenReturn(null);
 		Product savedProduct = productService.saveProduct(jsonObject);
-		System.out.println(savedProduct);
 		assertThat(savedProduct).isNotNull();
 		assertEquals(product1, savedProduct);
 	}

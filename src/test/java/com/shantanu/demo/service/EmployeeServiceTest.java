@@ -29,9 +29,6 @@ public class EmployeeServiceTest {
 	@MockBean
 	private EmployeeRepository employeeRepository;
 
-//	@MockBean
-//	private ProjectRepository projectRepository;
-
 	@Autowired
 	private EmployeeService employeeService;
 
@@ -49,12 +46,6 @@ public class EmployeeServiceTest {
 	@Test
 	public void givenEmployeesList_whenGetAllEmployees_thenReturnEmployeesList() {
 		Employee employee2 = new Employee("EMP_00002", "Pranaya", "pranaya@gmail.com", 12000.0);
-//		Employee employee2 = Employee.builder()
-//			.id("EMP_00002")
-//			.name("Pranaya")
-//			.salary(12000.0)
-//			.email("pranaya@gmail.com")
-//			.build();
 
 		when(employeeRepository.findAll()).thenReturn(List.of(this.employee1, employee2));
 		List<Employee> employeeList = employeeService.getAllEmployees();
@@ -101,7 +92,6 @@ public class EmployeeServiceTest {
 		assertEquals(employee1, savedEmployee);
 	}
 
-
 	@DisplayName("JUnit test for updateEmployee method")
 	@Test
 	public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee() {
@@ -118,7 +108,6 @@ public class EmployeeServiceTest {
 		assertEquals(employee1, updatedEmployee);
 	}
 
-
 	@DisplayName("JUnit test for deleteEmployee method")
 	@Test
 	public void givenEmployeeId_whenDeleteEmployee_thenNothing() {
@@ -128,5 +117,4 @@ public class EmployeeServiceTest {
 		employeeService.deleteEmployee(employeeId);
 		verify(employeeRepository, times(1)).delete(employee1);
 	}
-
 }

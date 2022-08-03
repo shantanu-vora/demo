@@ -44,9 +44,6 @@ public class EmployeeControllerTest {
 	@MockBean
 	private EmployeeService employeeService;
 
-//	@MockBean
-//	private ProductService productService;
-
 	@BeforeEach
 	void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
@@ -82,8 +79,6 @@ public class EmployeeControllerTest {
 		String outputInJson = result.getResponse().getContentAsString();
 		assertThat(outputInJson).isEqualTo(expectedJson);
 	}
-
-
 
 	@DisplayName("Junit test for addEmployee method")
 	@Test
