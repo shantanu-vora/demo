@@ -28,6 +28,11 @@
 
 ## API Endpoints Document
 
-![](./src/main/resources/static/img/api-doc.png)
+![](./src/main/resources/static/img/api-doc-2.png)
+
+## Test Converage Report
+
+![](./src/main/resources/static/img/test-coverage.png)
+
 
 
