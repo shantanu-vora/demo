@@ -38,15 +38,6 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories = new ArrayList<>();
 
-//    public Product(String name, String batchNo, Double price, Integer quantity, List<Category> categories) {
-//        this.name = name;
-//        this.batchNo = batchNo;
-//        this.price = price;
-//        this.quantity = quantity;
-//        this.categories = categories;
-//    }
-
-
     public Product(String id, String name, String batchNo, Double price, Integer quantity) {
         this.id = id;
         this.name = name;
@@ -54,5 +45,4 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
     }
-
 }

@@ -37,18 +37,6 @@ public class Employee {
 		inverseJoinColumns = @JoinColumn(name = "project_id"))
 	private List<Project> projects = new ArrayList<>();
 
-//	public Employee(String name, String email, Double salary) {
-//		this.name = name;
-//		this.email = email;
-//		this.salary = salary;
-//	}
-//
-//	public Employee(String name, Double salary, List<Project> projects) {
-//		this.name = name;
-//		this.salary = salary;
-//		this.projects = projects;
-//	}
-
 	public Employee(String id, String name, String email, Double salary) {
 		this.id = id;
 		this.name = name;
@@ -56,15 +44,4 @@ public class Employee {
 		this.salary = salary;
 	}
 
-//	public Employee(String name, String email, Double salary, List<Project> projects) {
-//		this.name = name;
-//		this.email = email;
-//		this.salary = salary;
-//		this.projects = projects;
-//	}
-//
-//	public Employee(String name, String email) {
-//		this.name = name;
-//		this.email = email;
-//	}
 }

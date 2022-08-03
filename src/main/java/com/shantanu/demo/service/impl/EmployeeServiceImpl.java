@@ -46,8 +46,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setProjects(projects);
 		Employee existingEmployee = employeeRepository.findEmployeeByEmail(employee.getEmail());
 		if(existingEmployee == null) {
-			System.out.println("hello");
-//			System.out.println("In Service" + employeeRepository.save(employee));
 			return employeeRepository.save(employee);
 		} else {
 			throw new DataIntegrityViolationException("Employee already exists. Enter a unique employee email");
