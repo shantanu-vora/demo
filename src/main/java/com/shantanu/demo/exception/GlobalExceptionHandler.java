@@ -16,13 +16,16 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+	public static final String INVALID_PATH_VARIABLE = "Invalid Path Variable";
+	public static final String RESOURCE_NOT_FOUND = "Resource with the given id not found";
+
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException exception) {
 		ApiError apiError = new ApiError();
 		System.out.println(exception.getClass());
 		apiError.setStatus(HttpStatus.BAD_REQUEST.value());
 		apiError.setError(HttpStatus.BAD_REQUEST);
-		apiError.setMessage("Invalid Path Variable");
+		apiError.setMessage(INVALID_PATH_VARIABLE);
 		apiError.setTimestamp(LocalDateTime.now());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
 	}
@@ -31,7 +34,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiError> handleHttpClientErrorException(HttpClientErrorException exception) {
 		ApiError apiError = new ApiError();
 		apiError.setStatus(HttpStatus.NOT_FOUND.value());
-		apiError.setMessage("Resource with the given id not found");
+		apiError.setMessage(RESOURCE_NOT_FOUND);
 		apiError.setError(HttpStatus.NOT_FOUND);
 		apiError.setTimestamp(LocalDateTime.now());;
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
