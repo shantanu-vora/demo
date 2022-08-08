@@ -1,6 +1,5 @@
 package com.shantanu.demo.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.shantanu.demo.service.HomeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,10 @@ import org.springframework.web.client.RestTemplate;
 public class HomeServiceImpl implements HomeService {
 
 	@Autowired
-	private ObjectMapper objectMapper;
+	private RestTemplate restTemplate;
 
 	@Override
 	public ResponseEntity<ObjectNode> fetchCurrentWeather(String weatherStackApi, String city) {
-		RestTemplate restTemplate = new RestTemplate();
 		city = String.join("+", city.split(" "));
 		return restTemplate.getForEntity(weatherStackApi + city, ObjectNode.class);
 	}

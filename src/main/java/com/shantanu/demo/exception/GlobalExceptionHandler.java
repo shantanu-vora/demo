@@ -1,5 +1,6 @@
 package com.shantanu.demo.exception;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,13 +17,13 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+	@Autowired
+	private ApiError apiError;
 	public static final String INVALID_PATH_VARIABLE = "Invalid Path Variable";
 	public static final String RESOURCE_NOT_FOUND = "Resource with the given id not found";
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException exception) {
-		ApiError apiError = new ApiError();
-		System.out.println(exception.getClass());
 		apiError.setStatus(HttpStatus.BAD_REQUEST.value());
 		apiError.setError(HttpStatus.BAD_REQUEST);
 		apiError.setMessage(INVALID_PATH_VARIABLE);
@@ -32,7 +33,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(HttpClientErrorException.class)
     public ResponseEntity<ApiError> handleHttpClientErrorException(HttpClientErrorException exception) {
-		ApiError apiError = new ApiError();
 		apiError.setStatus(HttpStatus.NOT_FOUND.value());
 		apiError.setMessage(RESOURCE_NOT_FOUND);
 		apiError.setError(HttpStatus.NOT_FOUND);
@@ -42,7 +42,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ResponseEntity<ApiError> handleDataIntegrityViolation(DataIntegrityViolationException exception) {
-		ApiError apiError = new ApiError();
 		apiError.setStatus(HttpStatus.CONFLICT.value());
 		apiError.setMessage(exception.getMessage());
 		apiError.setError(HttpStatus.CONFLICT);
@@ -52,7 +51,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		ApiError apiError = new ApiError();
 		apiError.setStatus(status.value());
 		apiError.setMessage(ex.getMessage());
 		apiError.setError(status);

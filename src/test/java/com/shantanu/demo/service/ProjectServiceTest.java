@@ -1,6 +1,5 @@
 package com.shantanu.demo.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shantanu.demo.entity.Project;
 import com.shantanu.demo.repository.ProjectRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,9 +22,6 @@ class ProjectServiceTest {
 
 	@Autowired
 	private ProjectService projectService;
-
-	@Autowired
-	private ObjectMapper objectMapper;
 
 	private Project project1;
 

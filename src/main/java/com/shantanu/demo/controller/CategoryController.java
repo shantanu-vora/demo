@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import javax.annotation.security.RolesAllowed;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
@@ -21,9 +21,11 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 
+
+//	@Pattern(regexp = "^CAT_\\d{5}$")
 	@GetMapping("/{id}")
 	@RolesAllowed({"admin", "user"})
-	public ResponseEntity<Category> getCategoryById(@PathVariable("id") @Pattern(regexp = "^CAT_\\d{5}$") String categoryId) {
+	public ResponseEntity<Category> getCategoryById(@PathVariable("id") String categoryId) {
 		Category category = categoryService.getCategoryById(categoryId);
 		return ResponseEntity.ok(category);
 	}
