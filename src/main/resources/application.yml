@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 9091
   error:
     include-message: always
     include-binding-errors: always
@@ -54,7 +54,11 @@ keycloak:
   public-client: true
   bearer-only: true
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: metrics,prometheus
 
 getAllPostsApiUrl: https://blogzen.herokuapp.com/api/posts
 weatherStackApiUrl: http://api.weatherstack.com/current?access_key=f216262609602500c30959e57ef04c81&units=s&query=
