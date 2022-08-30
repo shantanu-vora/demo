@@ -5,6 +5,8 @@ import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
     @GenericGenerator(name = "product_seq", strategy = "com.shantanu.demo.sequencegenerator.SequenceIdGenerator",
     parameters = {
-            @Parameter(name = SequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+            @Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "1"),
             @Parameter(name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "PRO_"),
             @Parameter(name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")})
     private String id;

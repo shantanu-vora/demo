@@ -5,6 +5,7 @@ import com.shantanu.demo.sequencegenerator.SequenceIdGenerator;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class Employee {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
 	@GenericGenerator(name = "employee_seq", strategy = "com.shantanu.demo.sequencegenerator.SequenceIdGenerator",
 		parameters = {
-			@Parameter(name = SequenceIdGenerator.INCREMENT_PARAM, value = "1"),
+			@Parameter(name = SequenceStyleGenerator.INCREMENT_PARAM, value = "1"),
 			@Parameter(name = SequenceIdGenerator.VALUE_PREFIX_PARAMETER, value = "EMP_"),
 			@Parameter(name = SequenceIdGenerator.NUMBER_FORMAT_PARAMETER, value = "%05d")})
 	private String id;
